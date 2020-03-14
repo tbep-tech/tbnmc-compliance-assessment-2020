@@ -1,15 +1,22 @@
 ---
 title: |
   ![](www/header.png)
-  <center><h2>THE TAMPA BAY  NITROGEN MANAGEMENT CONSORTIUM PARTNERSHIP FOR PROGRESS<h2></center>
 output: 
   bookdown::html_document2:
     toc: true
     toc_float: 
-       collapsed: true
+       collapsed: false
+    toc_depth: 5
+    number_sections: false
 self_contained: yes
 css: styles.css
 ---
+
+#  {-}
+
+## {-}
+
+### {-}
 
 ```{r setup, message = F, warning = F, results = 'hide', echo = F}
 knitr::opts_chunk$set(echo = F, warning = F, message = F, fig.path = 'figure/')
@@ -31,6 +38,8 @@ levs <- c('Old Tampa Bay', 'Hillsborough Bay', 'Middle Tampa Bay', 'Lower Tampa 
 noaa_key <- Sys.getenv('NOAA_KEY')
 yrval <- 2019
 ```
+
+<center><h2>THE TAMPA BAY  NITROGEN MANAGEMENT CONSORTIUM PARTNERSHIP FOR PROGRESS<h2></center>
 
 <table>
   <col width="100">
@@ -77,7 +86,6 @@ yrval <- 2019
 <table>
 <br></br>
 
-
 On behalf of the Tampa Bay Nitrogen Management Consortium, please find attached the 2019 update on water quality and seagrass resources in the Tampa Bay estuary. This update has been developed in accordance with the compliance assessment adopted through FDEP’s Tampa Bay Reasonable Assurance determination on December 22, 2010 ([Link to FDEP Final Order](http://www.tbeptech.org/attachments/article/50/FDEP_Final_Order_2009_RA_Addendum.pdf)), FDEP’s subsequent approval of the 2017 RA Update ([Link to FDEP Acceptance Letter](http://www.tbeptech.org/NitrogenMgmtConsort/ReasonableAssurance/2017_Submittal/FDEP_2017_RA_Update_Approval_Letter_11152017.pdf)), and the federally-recognized TMDL for Tampa Bay ([Link to EPA TMDL](http://iaspub.epa.gov/waters10/attains_impaired_waters.tmdl_report?p_tmdl_id=1180&p_tribe=&p_report_type=)). The formal annual compliance assessment utilized by the Consortium is detailed in Section VIII.B of the Final 2009 Reasonable Assurance Addendum: Allocation and Assessment Report ([Link to Final Document](http://www.tbeptech.org/attachments/article/50/FINAL_NMC_APPROVED_2009_RA_Addendum_Addressing_FDEP_Comments_01222010.pdf)).
 
 In summary, chlorophyll-a concentrations in three of four major bay segments were below FDEP-approved numeric nutrient criteria thresholds. Elevated concentrations were observed in Old Tampa Bay between July and October, primarily due to Pyrodinium bahamense blooms. The approved thresholds were adopted as part of FDEP’s 2002 Reasonable Assurance determination for Tampa Bay and, at that time, it was determined that Tampa Bay’s seagrass restoration goals could be achieved if annual chlorophyll-a concentrations remained below these thresholds. If a bay segment’s chlorophyll-a concentration remains above thresholds for 2 concurrent years, additional compliance assessment steps are required by the Consortium. This nutrient management strategy has been used consistently by the TBEP and Consortium in their Annual Decision Matrix and Assessment reports for Tampa Bay ([Link to 2019 Update Report](https://tbeptech.org/TBEP_TECH_PUBS/2020/TBEP_01_20_2019_Decision_Matrix_Update.pdf)). 
@@ -100,35 +108,94 @@ The framework is applied on a bay-segment basis, and is predicated on assessing 
 
 Regardless of the assessment results, the Consortium will annually report (by June of the following year) whether the bay segment specific chlorophyll-a thresholds are met using the Environmental Protection Commission of Hillsborough County (EPCHC) dataset, as traditionally assessed using the “Decision Matrix” management strategy developed by the TBEP ([Janicki, Wade and Pribble 2000](http://www.tbeptech.org/TBEP_TECH_PUBS/2000/TBEP_04_00Chlor-A.pdf)) and will deliver this to FDEP and EPA (Figure \@ref(fig:decision); NMC Action 1 in the Framework). If an annual, individual exceedence of a bay segment chlorophyll-a threshold is observed, an addendum report outlining the anomalous event(s) or data which influenced the bay segment chlorophyll-a exceedence will be delivered to FDEP and EPA upon review by NMC participants by September of the following year (Figure \@ref(fig:decision); NMC Action 2 in the Framework). An evaluation of the bay segment assimilative capacity (i.e. revision to the federally-recognized TMDL) is formally considered (if not already considered by the NMC) when bay segment chlorophyll-a thresholds are not met in 2 concurrent years, and hydrologically normalized loads for those years meet the federally-recognized TMDL (Figure \@ref(fig:decision); NMC Action 3 in the Framework). Alternatively, when bay segment chlorophyll-a thresholds are not met in 2 concurrent years and hydrologically normalized loads for those years also do not meet the federally-recognized TMDL, the Consortium will deliver a full loading report to FDEP and EPA comparing the observed, combined entity/source annual or multiple year loadings to the sources’ 5-yr annual average allocation by September of the following year. This report will identify any exceedences among combined entity/source load categories after taking into consideration “set allocation” sources and hydrologically-normalized sources, and if necessary, whether exceedences were observed for individual MS4 or unpermitted (LA) sources (Figure \@ref(fig:decision); NMC Action 4 in the Framework). It is noted that FDEP will independently assess individual entities for compliance with their allocations.
 
-Add table ...
+<table border="1">
+  <caption>(\#tab:steps) Assessment steps linked to the Nitrogen Management Consortium’s decision framework, as depicted in Figure \@ref(fig:decision).</caption>
+  <col width = "600">
+  <col width = "100">
+  <col width = "200">
+  <tr>
+    <td><b>Assessment Step</b></td>
+    <td style="text-align:center"><b>Result</b></td>
+    <td style="text-align:center"><b>Action</b></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><b>I.</b> Determine annual bay segment specific chlorophyll-a FDEP threshold attainment as traditionally assessed using the Decision Matrix management strategy developed by the TBEP (TBEP Technical Publication 04-00).</td>
+    <td style="text-align:center"><b>Yes</b></td>
+    <td style="text-align:center"><b>NMC Action 1</b></td>
+  </tr>
+  <tr>
+    <td style="text-align:center"><b>No</b></td>
+    <td style="text-align:center"><b>NMC Action 1</b></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><b>II.</b> Review data and determine if an anomalous event(s) influenced non-attainment of the bay segment specific chlorophyll-a threshold.</td>
+    <td style="text-align:center"><b>Yes</b></td>
+    <td style="text-align:center"><b>NMC Action 2</b></td>
+  </tr>
+  <tr>
+    <td style="text-align:center"><b>No</b></td>
+    <td style="text-align:center"><b>Go to III</b></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><b>III.</b> Determine if the chlorophyll-a thresholds have been exceeded for <2 consecutive years.</td>
+    <td style="text-align:center"><b>Yes</b></td>
+    <td style="text-align:center"><b>NMC Action 2</b></td>
+  </tr>
+  <tr>
+    <td style="text-align:center"><b>No</b></td>
+    <td style="text-align:center"><b>Go to IV</b></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><b>IV.</b> Determine if the bay segment specific federally-recognized TMDL has been achieved using the hydrologically-adjusted compliance assessment outlined in NMC Decision Memo #11 (Appendix 2-11).</td>
+    <td style="text-align:center"><b>Yes</b></td>
+    <td style="text-align:center"><b>NMC Action 3</b></td>
+  </tr>
+  <tr>
+    <td style="text-align:center"><b>No</b></td>
+    <td style="text-align:center"><b>Go to V</b></td>
+  </tr>
+  <tr>
+  <td><b>V.</b> For a given year or for multiple years, compile and report entity-specific combined source loads in comparison to 5-yr annual average reasonable assurance allocation.</td>
+    <td style="text-align:center"><b>Compile & Report</b></td>
+    <td style="text-align:center"><b>NMC Action 4</b></td>
+  </tr>
+</table>
+<br></br>
 
-NMC actions outlined in Figure \@ref(fig:decision) and Table 1 performed during RA Implementation Period (2017-2021) are as follows:
+NMC actions outlined in Figure \@ref(fig:decision) and Table \@ref(tab:steps) performed during RA Implementation Period (2017-2021) are as follows:
 
 <table>
   <col width="100">
   <tr>
-    <td>NMC Action 1 -</td>
+    <td valign="top">NMC Action 1 -</td>
     <td>A report assessing attainment of bay segment specific chlorophyll-a thresholds using the EPCHC dataset, as traditionally assessed using the Decision Matrix management strategy developed by the TBEP ([TBEP Technical Publication 04-00](http://www.tbeptech.org/TBEP_TECH_PUBS/2000/TBEP_04_00Chlor-A.pdf)) will be delivered to FDEP and EPA (this report).</td>
   </tr>
   <tr>
-    <td>NMC Action 1 -</td>
+    <td valign="top">NMC Action 1 -</td>
     <td>A report of the anomalous event(s) or data which influenced the bay segment chlorophyll-a exceedence will be delivered to FDEP and EPA, upon review by NMC participants (this report).</td>
   </tr>
   <tr>
-    <td>NMC Action 3 -</td>
+    <td valign="top">NMC Action 3 -</td>
     <td>Consider re-evaluation of the bay segment assimilative capacity based on nonattainment of bay segment chlorophyll-a threshold while meeting federally-recognized TMDL.</td>
   </tr>
   <tr>
-    <td>NMC Action 4 -</td>
+    <td valign="top">NMC Action 4 -</td>
     <td>If federally-recognized TMDL not achieved, compile results of hydrologic evaluation for FDEP’s review and identify potential further actions needed to achieve reasonable assurance for bay segment allocations. </td>
   </tr>
 </table>
 
 <center><h3><u>`r yrval` Results Summary</u></h3></center>
 
-Add text 
+Results from 2019 indicate that all RA bay segments, excluding Old Tampa Bay, met chlorophyll-a thresholds accepted by the FDEP to maintain FDEP Reasonable Assurance for Tampa Bay and to comply with the EPA TMDL (Figure 2) and estuarine numeric nutrient criteria for Tampa Bay ([EPA Approval Letter Nov. 30, 2012](http://www.dep.state.fl.us/water/wqssp/nutrients/docs/new/epa_approval_letter_113012.pdf)). In Old Tampa Bay, chlorophyll-a concentrations were elevated in a poorly flushed region that has typically produced summertime blooms of *Pyrodinium bahamense* since 2009 (Figure 3; *Note that individual station exceedences are not considered in this RA compliance assessment*). This observation is reflected in the majority of summertime months with chlorophyll-a concentrations higher than long-term median values in Old Tampa Bay (Figure 4). In response, the Consortium formed an Old Tampa Bay Working Group in early 2020 to prioritize additional investigations and future management actions that may alleviate the conditions fostering these summertime blooms. Additionally, the Consortium is proactively developing loading information for the 2018-2019 period to assess any anomalous conditions. 
 
-Lastly, annual hydrologic conditions within all four bay segments in `r yrval` were estimated to exceed 1992-1994 levels. Therefore, hydrologic adjustments for evaluating compliance with load allocations/permitting targets should be applied for the Old Tampa Bay, Hillsborough Bay, Middle Tampa Bay, and Lower Tampa Bay segments ([TBEP Tech. Pub. #05-12](http://www.tbeptech.org/TBEP_TECH_PUBS/2012/TBEP_05_12_NMC_Hyd_Tool_Report_052112.pdf) & [#03-16](https://www.tbeptech.org/TBEP_TECH_PUBS/2016/TBEP_03_16_TBNMC_Tech_Memo_Update_LTB_Hyd_Tool.pdf)). The estimated hydrologic loads for each bay segment relative to observed 1992-1994 levels are indicated in the table below. The associated compliance load adjustment factors (if applicable) are also specified. A tool to calculate the hydrologic estimates and adjustment factors by bay segment is now available online through an interactive dashboard (https://shiny.tbeptech.org/tbnmc_hydrologic_estimates/). 
+The TBEP, in partnership with the Southwest Florida Water Management District, has previously developed an integrated ecosystem model to evaluate the net environmental benefits that may result from implementing various management actions in Old Tampa Bay including: reducing point sources, nonpoint sources, and causeway obstructions in Old Tampa Bay ([TBEP Tech. Pub. #10-15](https://www.tbeptech.org/TBEP_TECH_PUBS/2015/TBEP_10_15_OTB_IM_Summary_5thICRW.pdf)). Furthermore, the TBEP is funding research conducted by the Florida Fish and Wildlife Research Institute to improve understanding of the cell physiology and behavior of *Pyrodinium bahamense* and evaluate the potential for using shellfish to mitigate these algal blooms in Old Tampa Bay.  Elevated chlorophyll-a concentrations were also observed in Lower Tampa Bay during August 2019, primarily as a result of *Bacillariophyta* and *Pseudo-nitzschia* (diatoms) blooms (Figure 7). Monthly chlorophyll-a conditions in Hillsborough Bay and Middle Tampa Bay were largely within or below median historic ranges during 2019 (Figure 4). Finally, a water quality dashboard ([https://shiny.tbeptech.org/wq-dash](https://shiny.tbeptech.org/wq-dash)) was developed to synthesize the data, assess additional water quality metrics (phytoplankton counts), and inform Consortium participants and other resource managers on the status of water quality in Tampa Bay. The dashboard will allow for enhanced adaptive management response by the community in the future.
+
+Seagrasses remain relatively stable given overall improved water quality conditions within Tampa Bay. Aerial photographs taken in December 2017 - January 2018 indicate that seagrass coverage decreased by 1,004 acres baywide over the 2016 estimate, but still exceed the TBEP’s recovery goal and total 40,652 acres (Figure 5). Seagrass acreage showed the greatest decreases in Hillsborough Bay (-544 acres) and Old Tampa Bay (-406 acres). The greatest increases were observed in Boca Ciega Bay (+134 acres) and Lower Tampa Bay (+156 acres) over the 2016 to 2018 period. The next SWFWMD seagrass coverage estimate will be developed from aerial photographs acquired over the winter 2019-20 period.
+
+Detailed results for the 2017-2021 RA implementation period are also provided in Tables 2-6 for each bay segment. As of the 2019 reporting period, NMC Actions 2-5 are not necessary based upon observed water quality and seagrass conditions within Tampa Bay. Individual annual reports of the bay’s conditions from 2017 – 2019 can be found on the TBEP Tech website, as specified in the following links (TBEP Tech Pub. [01-18](https://www.tbeptech.org/TBEP_TECH_PUBS/2018/TBEP_01_18_2017_Decision_Matrix_Results_Update.pdf); [01-19](https://www.tbeptech.org/TBEP_TECH_PUBS/2019/TBEP_01_19_2018_Decision_Matrix_Update_FINAL.pdf); [01-20](https://tbeptech.org/TBEP_TECH_PUBS/2020/TBEP_01_20_2019_Decision_Matrix_Update.pdf)). A summary of historic attainment of the regulatory chlorophyll-a thresholds for each of the bay segments is depicted in Figure 6.
+
+Lastly, annual hydrologic conditions within all four bay segments in `r yrval` were estimated to exceed 1992-1994 levels. Therefore, hydrologic adjustments for evaluating compliance with load allocations/permitting targets should be applied for the Old Tampa Bay, Hillsborough Bay, Middle Tampa Bay, and Lower Tampa Bay segments ([TBEP Tech. Pub. #05-12](http://www.tbeptech.org/TBEP_TECH_PUBS/2012/TBEP_05_12_NMC_Hyd_Tool_Report_052112.pdf) & [#03-16](https://www.tbeptech.org/TBEP_TECH_PUBS/2016/TBEP_03_16_TBNMC_Tech_Memo_Update_LTB_Hyd_Tool.pdf)). The estimated hydrologic loads for each bay segment relative to observed 1992-1994 levels are indicated in the table below. The associated compliance load adjustment factors (if applicable) are also specified. A tool to calculate the hydrologic estimates and adjustment factors by bay segment is now available online through an interactive dashboard (https://shiny.tbeptech.org/tbnmc_hydrologic_estimates/).
+
 ```{r, eval = T}
 # get adjustment estimates
 hydroload <- anlz_hydroload(yrval, noaa_key) 
