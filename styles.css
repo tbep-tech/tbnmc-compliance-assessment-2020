@@ -82,6 +82,42 @@ h5 {
 
 /* sub sections */
 
+span {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
+table {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
+p {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
+caption {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
+.level1 {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
+.level2 {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #958984;
+}
+
 .level3 {
   font-family: 'Lato';
   font-weight: 300;
