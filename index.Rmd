@@ -29,6 +29,7 @@ library(extrafont)
 library(tidyverse)
 library(reactable)
 library(gridExtra)
+library(leaflet)
 library(here)
 # library(googlesheets4)
 
@@ -58,11 +59,8 @@ fml <- "Lato Light"
 # bibs <- anlz_refs(sht)
 # writeLines(bibs, 'bibs.bib')
 
-# local file path
-xlsx <- here::here('data/data-raw', 'Results_Updated.xls')
-
-# import and download if new
-epcdata <- read_importwq(xlsx, download_latest_epchc = T, tryurl = T, connecttimeout = 20)
+data(wqdat)
+data(algdat)
 ```
 
 <center><h2>THE TAMPA BAY  NITROGEN MANAGEMENT CONSORTIUM PARTNERSHIP FOR PROGRESS<h2></center>
@@ -126,7 +124,7 @@ On December 22, 2010, then FDEP Secretary Drew signed a Final Order ([FDEP 2010]
 
 As part of the compliance assessment stipulated under the 2009 RA Addendum, the NMC committed to annually assess the water quality and seagrass conditions within Tampa Bay and report these to FDEP and EPA. The Consortium’s assessment responsibilities are shown in green in Figure \@ref(fig:decision). It should be noted that the Consortium’s reasonable assurance assessment strategy begins with the observation of water quality conditions in the bay for a particular year. As is recommended in numerous EPA guidance documents for the development of numeric nutrient criteria, the Consortium’s assessment strategy attempts to apply a stressor-response rationale for the determination of nitrogen load allocation reasonable assurance in the estuary. 
 
-```{r decision, fig.align = 'center', out.width = '70%', fig.cap='Nitrogen Management Consortium decision framework to assess future reasonable assurance of adopted allocations. Actions and steps to be conducted by the NMC are shown in green. Steps, decision points, and actions are outlined in Table \\@ref(tab:steps) (below) according to the Roman numerals listed in the figure.'}
+```{r decision, fig.align = 'center', out.width = '70%', fig.cap='Nitrogen Management Consortium decision framework to assess future reasonable assurance of adopted allocations. Actions and steps to be conducted by the NMC are shown in the circles and diamonds. Steps, decision points, and actions are outlined in Table \\@ref(tab:steps) (below) according to the Roman numerals listed in the figure.'}
 knitr::include_graphics(here::here('www/decisionframework.png'))
 ```
 
@@ -210,11 +208,11 @@ NMC actions outlined in Figure \@ref(fig:decision) and Table \@ref(tab:steps) pe
   </tr>
 </table>
 
-<center><h3><u>`r maxyr` Results Summary</u></h3></center>
+<center><h3>`r maxyr` Results Summary</h3></center>
 
 Results from 2019 indicate that all RA bay segments, excluding Old Tampa Bay, met chlorophyll-a thresholds accepted by the FDEP to maintain FDEP Reasonable Assurance for Tampa Bay and to comply with the EPA TMDL (Figure \@ref(fig:thrplot)) and estuarine numeric nutrient criteria for Tampa Bay ([EPA Approval Letter Nov. 30, 2012](http://www.dep.state.fl.us/water/wqssp/nutrients/docs/new/epa_approval_letter_113012.pdf)). In Old Tampa Bay, chlorophyll-a concentrations were elevated in a poorly flushed region that has typically produced summertime blooms of *Pyrodinium bahamense* since 2009 (Figure \@ref(fig:sitemap); *Note that individual station exceedences are not considered in this RA compliance assessment*). This observation is reflected in the majority of summertime months with chlorophyll-a concentrations higher than long-term median values in Old Tampa Bay (Figure \@ref(fig:boxplot)). In response, the Consortium formed an Old Tampa Bay Working Group in early 2020 to prioritize additional investigations and future management actions that may alleviate the conditions fostering these summertime blooms. Additionally, the Consortium is proactively developing loading information for the 2018-2019 period to assess any anomalous conditions. 
 
-The TBEP, in partnership with the Southwest Florida Water Management District, has previously developed an integrated ecosystem model to evaluate the net environmental benefits that may result from implementing various management actions in Old Tampa Bay including: reducing point sources, nonpoint sources, and causeway obstructions in Old Tampa Bay [@tbep1015]. Furthermore, the TBEP is funding research conducted by the Florida Fish and Wildlife Research Institute to improve understanding of the cell physiology and behavior of *Pyrodinium bahamense* and evaluate the potential for using shellfish to mitigate these algal blooms in Old Tampa Bay.  Elevated chlorophyll-a concentrations were also observed in Lower Tampa Bay during August 2019, primarily as a result of *Bacillariophyta* and *Pseudo-nitzschia* (diatoms) blooms (Figure 7). Monthly chlorophyll-a conditions in Hillsborough Bay and Middle Tampa Bay were largely within or below median historic ranges during 2019 (Figure \@ref(fig:boxplot)). Finally, a water quality dashboard ([https://shiny.tbeptech.org/wq-dash](https://shiny.tbeptech.org/wq-dash)) was developed to synthesize the data, assess additional water quality metrics (phytoplankton counts), and inform Consortium participants and other resource managers on the status of water quality in Tampa Bay. The dashboard will allow for enhanced adaptive management response by the community in the future.
+The TBEP, in partnership with the Southwest Florida Water Management District, has previously developed an integrated ecosystem model to evaluate the net environmental benefits that may result from implementing various management actions in Old Tampa Bay including: reducing point sources, nonpoint sources, and causeway obstructions in Old Tampa Bay [@tbep1015]. Furthermore, the TBEP is funding research conducted by the Florida Fish and Wildlife Research Institute to improve understanding of the cell physiology and behavior of *Pyrodinium bahamense* and evaluate the potential for using shellfish to mitigate these algal blooms in Old Tampa Bay.  Elevated chlorophyll-a concentrations were also observed in Lower Tampa Bay during August 2019, primarily as a result of *Bacillariophyta* and *Pseudo-nitzschia* (diatoms) blooms (Figure \@ref(fig:algplo)). Monthly chlorophyll-a conditions in Hillsborough Bay and Middle Tampa Bay were largely within or below median historic ranges during 2019 (Figure \@ref(fig:boxplot)). Finally, a water quality dashboard ([https://shiny.tbeptech.org/wq-dash](https://shiny.tbeptech.org/wq-dash)) was developed to synthesize the data, assess additional water quality metrics (phytoplankton counts), and inform Consortium participants and other resource managers on the status of water quality in Tampa Bay. The dashboard will allow for enhanced adaptive management response by the community in the future.
 
 Seagrasses remain relatively stable given overall improved water quality conditions within Tampa Bay. Aerial photographs taken in December 2017 - January 2018 indicate that seagrass coverage decreased by 1,004 acres baywide over the 2016 estimate, but still exceed the TBEP’s recovery goal and total 40,652 acres (Figure \@ref(fig:seagrass)). Seagrass acreage showed the greatest decreases in Hillsborough Bay (-544 acres) and Old Tampa Bay (-406 acres). The greatest increases were observed in Boca Ciega Bay (+134 acres) and Lower Tampa Bay (+156 acres) over the 2016 to 2018 period. The next SWFWMD seagrass coverage estimate will be developed from aerial photographs acquired over the winter 2019-20 period.
 
@@ -264,12 +262,12 @@ thrthm <- theme(
   )
 sclx <- scale_x_continuous(breaks = seq(1975, maxyr, by = 5))
 vline <- geom_vline(xintercept = as.numeric(2016.5), size = 2, colour = 'grey', alpha = 0.8)
-p1 <- show_thrplot(epcdata, bay_segment = "OTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm
+p1 <- show_thrplot(wqdat, bay_segment = "OTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm
 p1leg <- g_legend(p1)
 p1 <- p1 + theme(legend.position = 'none')
-p2 <- show_thrplot(epcdata, bay_segment = "HB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
-p3 <- show_thrplot(epcdata, bay_segment = "MTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
-p4 <- show_thrplot(epcdata, bay_segment = "LTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
+p2 <- show_thrplot(wqdat, bay_segment = "HB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
+p3 <- show_thrplot(wqdat, bay_segment = "MTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
+p4 <- show_thrplot(wqdat, bay_segment = "LTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
 
 # align
 # Get the widths
@@ -294,7 +292,7 @@ grid.arrange(
 ```
 
 ```{r sitemap, fig.cap = 'Map depicting individual station chlorophyll-a exceedences in Tampa Bay relative to FDEP regulatory thresholds for chlorophyll-a. *Note individual station exceedences do not indicate failed compliance at the bay segment scale.*', fig.align = 'center', fig.height=8, fig.width=5, out.width = "70%"}
-show_sitemap(epcdata, yrsel = maxyr, thrs = T)
+show_sitemap(wqdat, yrsel = maxyr, thrs = T)
 ```
 
 ```{r boxplot, fig.cap = paste0(maxyr, ' monthly chlorophyll-a bay segment means (red dots) compared to monthly distributions from 1972-', maxyr -  1, ' (box plots and black dots).  Boxes encompass the 25th and 75th percentiles, while whiskers bound the interquartile range. Dots beyond the whiskers represent outliers throughout the 1972-', maxyr -1, ' sample period.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
@@ -310,12 +308,12 @@ thrthm <- theme(
     text = element_text(family = fml)
   )
 
-p1 <- show_boxplot(epcdata, bay_segment = "OTB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm
+p1 <- show_boxplot(wqdat, bay_segment = "OTB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm
 p1leg <- g_legend(p1)
 p1 <- p1 + theme(legend.position = 'none')
-p2 <- show_boxplot(epcdata, bay_segment = "HB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
-p3 <- show_boxplot(epcdata, bay_segment = "MTB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
-p4 <- show_boxplot(epcdata, bay_segment = "LTB",  yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
+p2 <- show_boxplot(wqdat, bay_segment = "HB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
+p3 <- show_boxplot(wqdat, bay_segment = "MTB", yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
+p4 <- show_boxplot(wqdat, bay_segment = "LTB",  yrrng = yrrng, yrsel = maxyr, family = fml) + thrthm + theme(legend.position = 'none')
 
 # align
 # Get the widths
@@ -344,7 +342,7 @@ knitr::include_graphics(here::here('www/seagrass.png'))
 ```
 
 ```{r chlmat, fig.align = 'center', out.width = '30%', fig.cap = paste0('Attainment of adopted chlorophyll-a thresholds (1974 - ', maxyr, ') in the four major bay segments.  Green (yes) indicates that average annual chlorophyll-a thresholds were met; red (no) indicates that threshold levels were not met.  Grey line is the beginning of the Reasonable Assurance implementation period. Data source:  EPCHC.'), fig.height = 10, fig.width = 4}
-show_wqmatrix(epcdata, param = 'chla', yrrng = c(1975, maxyr), txtsz = 5, abbrev = T, family = fml) +
+show_wqmatrix(wqdat, param = 'chla', yrrng = c(1975, maxyr), txtsz = 5, abbrev = T, family = fml) +
   geom_hline(yintercept = 2016.5, size = 2, color = 'grey') +
   theme(
     plot.background = element_rect(fill = NA, color = NA),
@@ -354,5 +352,50 @@ show_wqmatrix(epcdata, param = 'chla', yrrng = c(1975, maxyr), txtsz = 5, abbrev
     text = element_text(family = fml)
   )
 ```
+
+```{r algplo, fig.height = 3, fig.width = 7, fig.align = 'center', fig.cap = 'Observed phytoplankton cell counts for July in Old Tampa Bay (top) and August in Lower Tampa Bay (bottom). The count data represent sums across segment stations for different phytoplankton taxa. Data source: EPCHC.'}
+
+pal_alg <- colorFactor(
+  palette = RColorBrewer::brewer.pal(8,  'Dark2'),#c('#004F7E', '#00806E', '#427355', '#5C4A42', '#958984'),
+  na.color = 'yellow',
+  levels = c('Bacillariophyta', 'Cyanobacteria', 'Karenia brevis', 'Pseudo-nitzschia pungens', 'Pseudo-nitzschia sp.', 'Pyrodinium bahamense', 'Tripos hircus', 'other')
+)
+
+algnms <- c('Bacillariophyta', 'Cyanobacteria', 'Karenia brevis', 'Pseudo-nitzschia pungens', 'Pseudo-nitzschia sp.', 'Pyrodinium bahamense', 'Tripos hircus', 'other')
+cols <- pal_alg(algnms)
+names(cols) <- algnms
+
+toplo <- algdat %>% 
+  filter(yr %in% 2019) %>% 
+  mutate(epchc_station = as.numeric(epchc_station)) %>% 
+  left_join(stations, by = 'epchc_station') %>% 
+  filter((mo %in% c('Jul') & bay_segment == 'OTB') | (mo %in% c('Aug') & bay_segment == 'LTB')) %>% 
+  group_by(name, mo, bay_segment) %>% 
+  summarise(count = sum(count, na.rm = T)) %>% 
+  unite('var', bay_segment, mo) %>% 
+  mutate(
+    var = factor(var, levels = c('OTB_Jul', 'LTB_Aug'), labels = c('OTB, July', 'LTB, August'))
+    )
+
+ggplot(toplo, aes(y = reorder(name, count), x = count, fill = name)) + 
+  geom_bar(stat = 'identity') +
+  # facet_wrap(~var, ncol = 1, scales= 'free_y') + 
+  facet_grid(var~ . , scales= 'free_y', space = 'free_y') + 
+  theme_minimal(base_family = fml) + 
+  scale_x_continuous(expand = c(0, 0))+ 
+  scale_fill_manual(values = cols) + 
+  theme(
+    axis.title.y = element_blank(),
+    legend.position = 'none',
+    strip.background = element_blank(),
+    axis.text.y = element_text(face = 'italic'),
+    text = element_text(family = fml)
+  ) + 
+  labs(
+    x = "Aggregated cell count across stations"
+  )
+
+```
+
 
 <center><h3>References</h3></center>
