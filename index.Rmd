@@ -192,7 +192,7 @@ NMC actions outlined in Figure \@ref(fig:decision) and Table \@ref(tab:steps) pe
     <td>A report assessing attainment of bay segment specific chlorophyll-a thresholds using the EPCHC dataset, as traditionally assessed using the Decision Matrix management strategy developed by the TBEP [@tbep0400] will be delivered to FDEP and EPA (this report).</td>
   </tr>
   <tr>
-    <td valign="top">NMC Action 1 -</td>
+    <td valign="top">NMC Action 2 -</td>
     <td>A report of the anomalous event(s) or data which influenced the bay segment chlorophyll-a exceedence will be delivered to FDEP and EPA, upon review by NMC participants (this report).</td>
   </tr>
   <tr>
