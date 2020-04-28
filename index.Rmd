@@ -1,6 +1,6 @@
 ---
 title: |
-  ![](www/TBNMC.png)
+  ![](www/header.png)
 output: 
   bookdown::html_document2:
     toc: true
@@ -84,7 +84,7 @@ data(algdat)
   </tr>
   <tr>
     <td><font size="2">cc:</font></td>
-    <td><font size="2">Jessica Mostyn, Erin Rasnake, Ben Salys, Kevin O’Donnell, Julie Espy, Daryll Joyner (FDEP Tallahassee)</font></td>
+    <td><font size="2">Jessica Mostyn, Ben Ralys, Kevin O’Donnell, Julie Espy, Daryll Joyner (FDEP Tallahassee)</font></td>
   </tr>
     <tr>
     <td></td>
@@ -92,7 +92,7 @@ data(algdat)
   </tr>
     <tr>
     <td></td>
-    <td><font size="2">Anne Heard, Felicia Burks, Mark Nuhfer, Tom McGill (EPA Region 4)</font></td>
+    <td><font size="2">Jeaneanne M. Gettle, Tony Able, Natalie Ellington, Felicia Burks, Tom McGill (EPA Region 4)</font></td>
   </tr>
     <tr>
     <td></td>
