@@ -244,7 +244,7 @@ tab <- reactable(totab,
 tab
 ```
 
-```{r thrplot, fig.cap = paste0('Historic chlorophyll-a annual averages for the four major bay segments of Tampa Bay. Annual averages in ', maxyr, ' were below the regulatory thresholds developed under the Tampa Nitrogen Management Consortium’s nutrient management strategy in three of four bay segments, excluding Old Tampa Bay. Vertical grey lines indicate the start of the 2017-2021 Reasonable Assurance compliance assessment period Data source: EPCHC.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
+```{r thrplot, fig.cap = paste0('Historic chlorophyll-a annual averages for the four major bay segments of Tampa Bay. Annual averages in ', maxyr, ' were below the regulatory thresholds developed under the Tampa Nitrogen Management Consortium’s nutrient management strategy in three of four bay segments, excluding Old Tampa Bay (April, May data missing for 2020). Vertical grey lines indicate the start of the 2017-2021 Reasonable Assurance compliance assessment period Data source: EPCHC.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
 yrrng <- c(1975, maxyr)
 txtcol <- 'black'
 thrthm <- theme(
@@ -291,7 +291,7 @@ grid.arrange(
 show_sitemap(wqdat, yrsel = maxyr, thrs = T)
 ```
 
-```{r boxplot, fig.cap = paste0(maxyr, ' monthly chlorophyll-a bay segment means (red dots) compared to monthly distributions from 1972-', maxyr -  1, ' (box plots and black dots).  Boxes encompass the 25th and 75th percentiles, while whiskers bound the interquartile range. Dots beyond the whiskers represent outliers throughout the 1972-', maxyr -1, ' sample period.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
+```{r boxplot, fig.cap = paste0(maxyr, ' monthly chlorophyll-a bay segment means (red dots) compared to monthly distributions from 1972-', maxyr -  1, ' (box plots and black dots).  Boxes encompass the 25th and 75th percentiles, while whiskers bound the interquartile range. Dots beyond the whiskers represent outliers throughout the 1972-', maxyr -1, ' sample period. April, May data missing for 2020.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
 yrrng <- c(1975, maxyr)
 txtcol <- 'black'
 thrthm <- theme(
