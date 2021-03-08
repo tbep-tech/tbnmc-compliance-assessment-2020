@@ -8,7 +8,7 @@ library(dplyr)
 xlsx <- here::here('data/data-raw', 'wq_data.xls')
 
 # import and download if new
-wqdat <- read_importwq(xlsx, download_latest_epchc = T, tryurl = T, connecttimeout = 20)
+wqdat <- read_importwq(xlsx, download_latest = T)
 
 save(wqdat, file = here::here('data', 'wqdat.RData'), compress = 'xz')
 
@@ -18,7 +18,7 @@ save(wqdat, file = here::here('data', 'wqdat.RData'), compress = 'xz')
 xlsx <- here::here('data/data-raw', '/phyto_data.xlsx')
 
 # load and assign to object
-algdat <- read_importphyto(xlsx, download_latest_epchc = T, tryurl = T) %>%
-  filter(yr < 2020)
+algdat <- read_importphyto(xlsx, download_latest = T) %>%
+  filter(yr < 2021)
 
 save(algdat, file = here::here('data', 'algdat.RData'), compress = 'xz')
