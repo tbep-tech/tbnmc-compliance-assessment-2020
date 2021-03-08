@@ -14,28 +14,28 @@
 h1 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 h2 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 h3 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 h4 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
   font-style: italic;
 }
 h5 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
   font-style: italic;
 }
 
@@ -65,11 +65,11 @@ h5 {
 .sidebar {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 .section.sidebar {
-  background-color: #95898430; /* gray with alpha */
+  background-color: #00000030; /* gray with alpha */
 }
 
 #editor-map { /* this sets map editor height dynamically if in sidebar */
@@ -85,57 +85,57 @@ h5 {
 span {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 table {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 p {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 caption {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 .level1 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 .level2 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 .level3 {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 .chart-title {
   font-family: 'Lato';
   font-weight: 300;
   font-style: italic;
-  color: #958984;
+  color: #000000;
 }
 
 .nav-tabs {
   font-family: 'Lato';
   font-weight: 300;
   font-style: italic;
-  color: #958984;
+  color: #000000;
 }
 
 
@@ -187,7 +187,7 @@ caption {
 .leaflet-control { /* leaflet legends, control boxes */
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
 }
 
 /* figure captions */
@@ -195,6 +195,6 @@ caption {
 .caption {
   font-family: 'Lato';
   font-weight: 300;
-  color: #958984;
+  color: #000000;
   font-style: italic;
 }

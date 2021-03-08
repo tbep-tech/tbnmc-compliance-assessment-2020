@@ -6,7 +6,7 @@ g_legend<-function(a.gplot){
   return(legend)}
 
 # reasonable assurance table function 
-ratab <- function(seg, yrsel, epcdata, outtxt1 = 'All years below threshold so far, not necessary for NMC Actions 2-5', outtxt2 = "All years met threshold, not necessary for NMC Actions 3-5", outtxt3 = "Not necessary due to observed water quality and seagrass conditions in the bay segment", outtxt45 = "Not necessary when chloropyll-<i>a</i> threshold met"){
+ratab <- function(seg, yrsel, epcdata, outtxt1 = 'All years below threshold so far, not necessary for NMC Actions 2-5', outtxt2 = "All years met threshold, not necessary for NMC Actions 3-5", outtxt3 = "Not necessary due to observed water quality and seagrass conditions in the bay segment", outtxt45 = "Not necessary when chlorophyll-<i>a</i> threshold met"){
   
   trgs <- targets %>% 
     filter(bay_segment %in% !!seg) %>% 
@@ -138,7 +138,7 @@ ratabcap <- function(segin){
     filter(bay_segment %in% !!segin) %>% 
     pull(name)
   
-  out <- paste0("<table><col width = '1200'><caption>(\\#tab:", segin, "outcome) Demonstration of reasonable assurance assessment steps for ", namein, ". Green and yellow squares indicate outcomes of decision points outlined in the Consortium's reasonable assurance assessment framework (Figure \\@ref(fig:decision)).</caption><tr></tr></table>")
+  out <- paste0("<table><col width = '1200'><caption>(\\#tab:", segin, "outcome) Demonstration of reasonable assurance assessment steps for ", namein, ". Green and red squares indicate outcomes of decision points outlined in the Consortium's reasonable assurance assessment framework (Figure \\@ref(fig:decision)).</caption><tr></tr></table>")
   
   cat(out)
   

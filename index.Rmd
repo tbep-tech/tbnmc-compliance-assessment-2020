@@ -349,53 +349,9 @@ show_wqmatrix(wqdat, param = 'chla', yrrng = c(1975, maxyr), txtsz = 5, abbrev =
   )
 ```
 
-```{r algplo, fig.height = 3, fig.width = 7, fig.align = 'center', fig.cap = 'Observed phytoplankton cell counts for July in Old Tampa Bay (top) and August in Lower Tampa Bay (bottom). The count data represent sums across segment stations for different phytoplankton taxa. Data source: EPCHC.'}
-
-pal_alg <- colorFactor(
-  palette = RColorBrewer::brewer.pal(8,  'Dark2'),#c('#004F7E', '#00806E', '#427355', '#5C4A42', '#958984'),
-  na.color = 'yellow',
-  levels = c('Bacillariophyta', 'Cyanobacteria', 'Karenia brevis', 'Pseudo-nitzschia pungens', 'Pseudo-nitzschia sp.', 'Pyrodinium bahamense', 'Tripos hircus', 'other')
-)
-
-algnms <- c('Bacillariophyta', 'Cyanobacteria', 'Karenia brevis', 'Pseudo-nitzschia pungens', 'Pseudo-nitzschia sp.', 'Pyrodinium bahamense', 'Tripos hircus', 'other')
-cols <- pal_alg(algnms)
-names(cols) <- algnms
-
-toplo <- algdat %>%
-  filter(yr %in% 2019) %>%
-  mutate(epchc_station = as.numeric(epchc_station)) %>%
-  left_join(stations, by = 'epchc_station') %>%
-  filter((mo %in% c('Jul') & bay_segment == 'OTB') | (mo %in% c('Aug') & bay_segment == 'LTB')) %>%
-  group_by(name, mo, bay_segment) %>%
-  summarise(count = sum(count, na.rm = T)) %>%
-  unite('var', bay_segment, mo) %>%
-  mutate(
-    var = factor(var, levels = c('OTB_Jul', 'LTB_Aug'), labels = c('OTB, July', 'LTB, August'))
-    )
-
-ggplot(toplo, aes(y = reorder(name, count), x = count, fill = name)) +
-  geom_bar(stat = 'identity') +
-  # facet_wrap(~var, ncol = 1, scales= 'free_y') +
-  facet_grid(var~ . , scales= 'free_y', space = 'free_y') +
-  theme_minimal(base_family = fml) +
-  scale_x_continuous(expand = c(0, 0))+
-  scale_fill_manual(values = cols) +
-  theme(
-    axis.title.y = element_blank(),
-    legend.position = 'none',
-    strip.background = element_blank(),
-    axis.text.y = element_text(face = 'italic'),
-    text = element_text(family = fml)
-  ) +
-  labs(
-    x = "Aggregated cell count across stations"
-  )
-
-```
-
 ```{r results = 'asis'}
 ratabcap('OTB')
-ratab('OTB', maxyr, epcdata, outtxt1 = 'First and third years (2017 & 2019) above threshold, not necessary for NMC Actions 2-5.', outtxt2 = 'Concurrent years with threshold exceedances did not occur, not necessary for NMC Actions 3-5')
+ratab('OTB', maxyr, epcdata, outtxt1 = 'First, third, and fourth years (2017, 2019, 2020) above threshold, necessary for NMC Actions 2-5.', outtxt2 = 'Concurrent years with threshold exceedances occurred (2019, 2020), necessary for NMC actions 3-5.', outtxt3 = "Review data, check if anomalous events influenced exceedance.")
 ```
 <br></br>
 
