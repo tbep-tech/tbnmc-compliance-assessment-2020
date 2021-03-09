@@ -1,0 +1,31 @@
+on:
+  push:
+    paths:
+      - index.Rmd
+      
+name: build
+
+jobs:
+  render:
+    name: build
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install rmarkdown, remotes, and others
+        run: |
+          install.packages(c("rmarkdown", "remotes", "reactable", "english", "gridExtra", "here", "tidyverse", "extrafont"))
+          remotes::install_github("tbep-tech/tbeptools")
+        shell: Rscript {0}
+      - name: Render index
+        run: Rscript -e 'rmarkdown::render("index.Rmd")'
+      - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add -A
+          git commit -m 'Re-build RA doc' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
