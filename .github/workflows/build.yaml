@@ -1,7 +1,12 @@
 on:
   push:
-    paths:
-      - index.Rmd
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
       
 name: build
 
@@ -17,7 +22,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install rmarkdown, remotes, and others
         run: |
-          install.packages(c("rmarkdown", "remotes", "reactable", "english", "gridExtra", "here", "tidyverse", "extrafont"))
+          install.packages(c("rmarkdown", "bookdown", "remotes", "reactable", "english", "gridExtra", "here", "tidyverse", "extrafont"))
           remotes::install_github("tbep-tech/tbeptools")
         shell: Rscript {0}
       - name: Render index
