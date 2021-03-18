@@ -245,26 +245,163 @@ tab <- reactable(totab,
 tab
 ```
 
-```{r thrplot, fig.cap = paste0('Historic chlorophyll-a annual averages for the four major bay segments of Tampa Bay. Annual averages in ', maxyr, ' were below the regulatory thresholds developed under the Tampa Nitrogen Management Consortium’s nutrient management strategy in three of four bay segments, excluding Old Tampa Bay (April, May data missing for 2020). Vertical grey lines indicate the start of the 2017-2021 Reasonable Assurance compliance assessment period Data source: EPCHC.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
+```{r thrplot, fig.cap = paste0('Historic chlorophyll-a annual averages for the four major bay segments of Tampa Bay. Annual averages in ', maxyr, ' were below the regulatory thresholds developed under the Tampa Nitrogen Management Consortium’s nutrient management strategy in three of four bay segments, excluding Old Tampa Bay (April, May data missing for 2020). Vertical grey bars indicate the the 2017-2021 Reasonable Assurance compliance assessment period Data source: EPCHC.'), fig.height = 9, fig.width = 12, fig.align = 'center'}
+  
+show_rathrplot <- function(epcdata, bay_segment = c('OTB', 'HB', 'MTB', 'LTB'), thr = c('chla', 'la'), trgs = NULL, yrrng = c(1975, 2019),
+                         family = NA, labelexp = TRUE, txtlab = TRUE, thrs = FALSE, partialyr = FALSE){
+
+
+  maxyr <- yrrng[2]
+
+  # default targets from data file
+  if(is.null(trgs))
+    trgs <- targets
+
+  # yrrng must be in ascending order
+  if(yrrng[1] >= yrrng[2])
+    stop('yrrng argument must be in ascending order, e.g., c(1975, 2019)')
+
+  # segment
+  bay_segment <- match.arg(bay_segment)
+
+  # wq to plot
+  thr <- match.arg(thr)
+
+  # colors
+  cols <- c("Annual Mean"="red", "Management Target"="blue", "+1 se (small exceedance)"="blue", "+2 se (large exceedance)"="blue")
+
+  # averages
+  aves <- anlz_avedat(epcdata, partialyr = partialyr)
+
+  # axis label
+  if(labelexp)
+    axlab <- dplyr::case_when(
+      thr == 'chla' ~ expression("Mean Ann. Chl-a ("~ mu * "g\u00B7L"^-1 *")"),
+      thr == 'la' ~ expression("Mean Ann. Light Att. (m  " ^-1 *")")
+    )
+  if(!labelexp)
+    axlab <- dplyr::case_when(
+      thr == 'chla' ~ "Mean Ann. Chl-a (ug/L)",
+      thr == 'la' ~ "Mean Ann. Light Atten. (m-1)"
+    )
+
+  # get lines to plot
+  toln <- trgs %>%
+    dplyr::filter(bay_segment %in% !!bay_segment)
+  trgnum <- toln %>% dplyr::pull(!!paste0(thr, '_target'))
+  smlnum <- toln %>% dplyr::pull(!!paste0(thr, '_smallex'))
+  thrnum <- toln %>% dplyr::pull(!!paste0(thr, '_thresh'))
+
+
+  # change label location if thrs is true
+  if(!thrs)
+    num <- trgnum
+  if(thrs)
+    num <- thrnum
+
+  # threshold label
+  if(labelexp)
+    trglab <- dplyr::case_when(
+      thr == 'chla' ~ paste(num, "~ mu * g%.%L^{-1}"),
+      thr == 'la' ~ paste(num, "~m","^{-1}")
+    )
+  if(!labelexp)
+    trglab <- dplyr::case_when(
+      thr == 'chla' ~ paste(num, "ug/L"),
+      thr == 'la' ~ paste(num, "m-1")
+    )
+
+  # bay segment plot title
+  ttl <- trgs %>%
+    dplyr::filter(bay_segment %in% !!bay_segment) %>%
+    dplyr::pull(name)
+
+  if(partialyr)
+    ttl <- paste0(ttl, '*')
+
+  # get data to plo
+  toplo <- aves$ann %>%
+    dplyr::filter(grepl(paste0('_', thr, '$'), var)) %>%
+    mutate(var = 'yval') %>%
+    dplyr::filter(bay_segment == !!bay_segment) %>%
+    dplyr::filter(yr >= yrrng[1] & yr <= yrrng[2]) %>%
+    tidyr::spread(var, val)
+
+  p <- ggplot(toplo) +
+    geom_rect(xmin = 2017, xmax = 2021, ymin = -Inf, ymax = Inf, fill = 'grey', alpha = 0.6) + 
+    geom_point(data = toplo, aes(x = yr, y = yval, colour = "Annual Mean"), size = 3) +
+    geom_line(data = toplo, aes(x = yr, y = yval, colour = "Annual Mean"), linetype = 'solid', size = 0.75) +
+    labs(y = axlab, title = ttl) +
+    scale_x_continuous(breaks = seq(1975, maxyr, by = 5)) +
+    theme(panel.grid.minor=element_blank(),
+          panel.grid.major=element_blank(),
+          plot.background = element_rect(fill = NA, color = NA),
+          legend.position = 'top',#c(0.85, 0.95),
+          legend.background = element_rect(fill=NA),
+          legend.key = element_rect(fill = '#ECECEC'),
+          legend.title = element_blank(),
+          axis.text.y = element_text(colour = 'black', size = 14),
+          axis.title = element_blank(),
+          plot.title = element_text(size = 22, colour = 'black'),
+          legend.text = element_text(size = 16, colour = 'black'),
+          axis.text.x = element_text(colour = 'black', angle = 0, size = 14, hjust = 0.5),
+          text = element_text(fml)
+      )
+  
+  # all targets/thresholds
+  if(!thrs)
+    p <- p +
+      geom_hline(aes(yintercept = trgnum, colour = 'Management Target')) +
+      geom_hline(aes(yintercept = smlnum, colour = '+1 se (small exceedance)'), linetype = 'dashed') +
+      geom_hline(aes(yintercept = thrnum, colour = '+2 se (large exceedance)'), linetype = 'dotted') +
+      scale_colour_manual(values = cols, labels = factor(names(cols), levels = names(cols))) +
+      guides(colour = guide_legend(
+        override.aes = list(
+          shape = c(19, NA, NA, NA),
+          colour = cols,
+          linetype = c('solid', 'solid', 'dashed', 'dotted'),
+          size = c(0.75, 0.5, 0.5, 0.5)
+          )
+      ))
+
+  # thresholds only
+  if(thrs)
+    p <- p +
+      geom_hline(aes(yintercept = thrnum, colour = '+2 se (large exceedance)'), linetype = 'dotted') +
+      scale_colour_manual(values = cols[c(1, 4)], labels = factor(names(cols[c(1, 4)]), levels = names(cols[c(1, 4)]))) +
+      guides(colour = guide_legend(
+        override.aes = list(
+          shape = c(19, NA),
+          colour = cols[c(1, 4)],
+          linetype = c('solid', 'dotted'),
+          size = c(0.75, 0.5)
+        )
+      ))
+
+  if(txtlab & !thrs)
+    p <- p +
+      geom_text(aes(yrrng[1], num, label = trglab), parse = labelexp, hjust = 0.2, vjust = 1, family = family, colour = 'blue')
+
+  if(txtlab & thrs)
+    p <- p +
+      geom_text(aes(yrrng[1], max(toplo$yval), label = trglab), parse = labelexp, hjust = 0.2, vjust = 1, family = family, colour = 'blue')
+
+
+  if(partialyr)
+    p <- p +
+      labs(caption = paste0('*Incomplete data for ', max(yrrng), ' estimated by five year average'))
+
+  return(p)
+
+}
+
 yrrng <- c(1975, maxyr)
-txtcol <- 'black'
-thrthm <- theme(
-    plot.background = element_rect(fill = NA, color = NA),
-    axis.text.y = element_text(colour = txtcol, size = 14),
-    axis.title = element_blank(),
-    plot.title = element_text(size = 22, colour = txtcol),
-    legend.text = element_text(size = 16, colour = txtcol),
-    axis.text.x = element_text(colour = txtcol, angle = 0, size = 14, hjust = 0.5),
-    text = element_text(fml)
-  )
-sclx <- scale_x_continuous(breaks = seq(1975, maxyr, by = 5))
-vline <- geom_vline(xintercept = as.numeric(2016.5), size = 2, colour = 'grey', alpha = 0.8)
-p1 <- show_thrplot(wqdat, bay_segment = "OTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm
+p1 <- show_rathrplot(wqdat, bay_segment = "OTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T)
 p1leg <- g_legend(p1)
 p1 <- p1 + theme(legend.position = 'none')
-p2 <- show_thrplot(wqdat, bay_segment = "HB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
-p3 <- show_thrplot(wqdat, bay_segment = "MTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
-p4 <- show_thrplot(wqdat, bay_segment = "LTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + vline + sclx + thrthm + theme(legend.position = 'none')
+p2 <- show_rathrplot(wqdat, bay_segment = "HB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + theme(legend.position = 'none')
+p3 <- show_rathrplot(wqdat, bay_segment = "MTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + theme(legend.position = 'none')
+p4 <- show_rathrplot(wqdat, bay_segment = "LTB", thr = "chla", yrrng = yrrng, family = fml, thrs = T) + theme(legend.position = 'none')
 
 # align
 # Get the widths
