@@ -41,7 +41,7 @@ if(Sys.info()[1] == 'Windows')
 levs <- c('Old Tampa Bay', 'Hillsborough Bay', 'Middle Tampa Bay', 'Lower Tampa Bay')
 noaa_key <- Sys.getenv('NOAA_KEY')
 maxyr <- 2020
-fml <- "Lato Light"
+fml <- "Roboto"
 
 # # get refs file
 # options(gargle_oauth_email = "mbeck@tbep.org")
