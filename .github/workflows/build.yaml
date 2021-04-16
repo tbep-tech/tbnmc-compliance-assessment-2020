@@ -15,7 +15,7 @@ jobs:
     name: build
     runs-on: macOS-latest
     env:
-      NOAA_KEY = ${{secrets.NOAA_KEY}}
+      NOAA_KEY: ${{secrets.NOAA_KEY}}
     steps:
       - uses: actions/checkout@v2
         with:
