@@ -41,7 +41,7 @@ if(Sys.info()[1] == 'Windows')
 levs <- c('Old Tampa Bay', 'Hillsborough Bay', 'Middle Tampa Bay', 'Lower Tampa Bay')
 noaa_key <- Sys.getenv('NOAA_KEY')
 maxyr <- 2020
-fml <- "Roboto"
+fml <- NA
 
 # # get refs file
 # options(gargle_oauth_email = "mbeck@tbep.org")
@@ -346,7 +346,7 @@ show_rathrplot <- function(epcdata, bay_segment = c('OTB', 'HB', 'MTB', 'LTB'), 
           plot.title = element_text(size = 22, colour = 'black'),
           legend.text = element_text(size = 16, colour = 'black'),
           axis.text.x = element_text(colour = 'black', angle = 0, size = 14, hjust = 0.5),
-          text = element_text(fml)
+          text = element_text(family)
       )
   
   # all targets/thresholds
