@@ -30,6 +30,7 @@ library(here)
 source('R/funcs.R')
 
 loadfonts(device = 'pdf', quiet = T)
+font_import()
 if(Sys.info()[1] == 'Windows')
   loadfonts(device = 'win', quiet = T)
 
