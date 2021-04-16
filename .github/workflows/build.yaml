@@ -1,7 +1,12 @@
 on:
   push:
-    paths:
-      - index.Rmd
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 name: build
 
