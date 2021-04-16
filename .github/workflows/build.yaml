@@ -29,7 +29,7 @@ jobs:
           brew install udunits
       - name: Install R packages
         run: |
-          install.packages(c("remotes", "tidyverse", "extrafont", "reactable", "gridExtra", "english", "here", "rmarkdown"))
+          install.packages(c("remotes", "tidyverse", "extrafont", "reactable", "gridExtra", "english", "here", "rmarkdown", "bookdown"))
           remotes::install_github("tbep-tech/tbeptools")
         shell: Rscript {0}
       - name: Render index
