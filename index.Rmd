@@ -70,7 +70,7 @@ data(algdat)
   </tr>
   <tr>
     <td>FROM:</td>
-    <td>Ed Sherwood, TBEP Executive Direcory (NMC Facilitator)</td>
+    <td>Ed Sherwood, TBEP Executive Director (NMC Facilitator)</td>
   </tr>
   <tr>
     <td>DATE:</td>
