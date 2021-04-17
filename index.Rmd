@@ -23,8 +23,10 @@ library(extrafont)
 library(tidyverse)
 library(reactable)
 library(gridExtra)
+library(grid)
 library(english)
 library(here)
+library(ggfx)
 # library(googlesheets4)
 
 source('R/funcs.R')
@@ -112,7 +114,7 @@ During 2020, the COVID-19 pandemic precluded water quality data collection in Ap
 
 The approved chlorophyll-a thresholds were adopted as part of FDEP’s 2002 Reasonable Assurance determination for Tampa Bay, and, at that time, it was determined that Tampa Bay’s seagrass restoration goals could be achieved if annual chlorophyll-a concentrations remained below these thresholds. If a bay segment’s chlorophyll-a concentration remains above thresholds for 2 concurrent years, additional compliance assessment steps are required by the Consortium. This nutrient management strategy has been consistently used by the TBEP and Consortium in their Annual Decision Matrix and Assessment reports for Tampa Bay since 2009 when nitrogen load allocations for Tampa Bay were formalized [@tbep0521].
 
-In 2020, the Tampa Bay Estuary Program also updated the Habitat Master Plan ([HMPU 2020](https://drive.google.com/file/d/1Hp0l_qtbxp1JxKJoGatdyuANSzQrpL0I/view)) for Tampa Bay, adopting a new goal of maintaining at least 40,000 acres of seagrass within the Bay. This represents a slight increase from the previous goal of 38,000 acres adopted in the mid-1990s. The Southwest Florida Water Management District's (SWFWMD) 2020 baywide seagrass coverage estimate is 35,240 acres (Figure \@ref(fig:seagrass)). This latest estimate brings Tampa Bay’s total seagrass coverage below the 40,000 acre protection and recovery goal. Reductions in seagrass coverage were observed throughout the coastal waterbodies and estuaries mapped by the SWFWMD, and additional research is being conducted to understand these most recent trends. Notwithstanding these setbacks, implementation of the Consortium’s approved nutrient management strategy continues to be a successful, adaptive management approach to address nutrient loading to the Tampa Bay estuary. For the majority of Tampa Bay, water quality continues to be supportive of seagrass resources.
+In 2020, the Tampa Bay Estuary Program also updated the Habitat Master Plan [@tbep0720] for Tampa Bay, adopting a new goal of maintaining at least 40,000 acres of seagrass within the Bay. This represents a slight increase from the previous goal of 38,000 acres adopted in the mid-1990s. The Southwest Florida Water Management District's (SWFWMD) 2020 baywide seagrass coverage estimate is 35,240 acres (Figure \@ref(fig:seagrass)). This latest estimate brings Tampa Bay’s total seagrass coverage below the 40,000 acre protection and recovery goal. Reductions in seagrass coverage were observed throughout the coastal waterbodies and estuaries mapped by the SWFWMD, and additional research is being conducted to understand these most recent trends. Notwithstanding these setbacks, implementation of the Consortium’s approved nutrient management strategy continues to be a successful, adaptive management approach to address nutrient loading to the Tampa Bay estuary. For the majority of Tampa Bay, water quality continues to be supportive of seagrass resources.
 
 Thank you again for your continued participation in the Consortium’s process.  Please contact Ed Sherwood ([esherwood@tbep.org](mailto:esherwood@tbep.org)) with any questions about the Consortium’s Annual Compliance Assessment.
 
@@ -472,8 +474,107 @@ grid.arrange(
 )
 ```
 
-```{r seagrass, fig.align = 'center', out.width = '80%', fig.cap = 'Historic seagrass coverage estimates for Tampa Bay. Data source: TBEP & SWFWMD.'}
-knitr::include_graphics(here::here('www/seagrass.png'))
+```{r, results = 'hide'}
+##
+# data prep
+
+seagrassadd <- seagrass %>%
+  bind_rows(
+    tibble(
+      Year = c(2020L),
+      Acres = c(35240)
+    )
+  )
+
+# extra years for padding
+exyrs <- seq(1950, 1953)
+
+toplo <- tibble(
+  Year = c(exyrs, seq(1982, 2020))
+) %>%
+  left_join(seagrass, by = 'Year') %>%
+  mutate(
+    Acres = case_when(
+      Year == '2020' ~ 35240,
+      T ~ Acres
+    ),
+    Acres = Acres / 1000,
+    fll = case_when(
+      Year == '2020' ~ 'prelim',
+      T ~ 'historic'
+    )
+  )
+
+##
+# base ggplot
+
+# axis labels
+lbs <- toplo$Year
+lbs[lbs %in% exyrs[-1]] <- ''
+
+p <- ggplot(toplo, aes(x = factor(Year), y = Acres)) +
+  with_shadow(geom_bar(aes(fill = fll), stat = 'identity', colour = 'black', width = 1.3), sigma = 2.7, x_offset = 0, y_offset = 0) +
+  geom_segment(x = 0, xend = 2, y = 38, yend = 38, col = 'red', size = 2) +
+  geom_segment(x = 4, xend = 42, y = 38, yend = 38, col = 'red', size = 2) +
+  geom_segment(x = 42, xend = 44, y = 40, yend = 40, col = 'red', size = 2) +
+  annotate("text", label = "Seagrass Coverage Goal", x = 4, y = 40.5, color = 'red', size = 5, hjust = 0, family = fml) +
+  annotate('text', x = 43, y = 34.5, label = 'Provisional: 35,240 acres', angle = 90, hjust = 1, vjust = 0.4) + 
+  scale_x_discrete(breaks = lbs, labels = lbs, expand = c(0.04, 0.04)) +
+  scale_fill_manual(values = c('#00806E', 'grey')) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1.1 * max(toplo$Acres, na.rm = T))) +
+  # theme_bw() +
+  theme(
+    axis.line = element_line(),
+    panel.background = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 6),
+    axis.title.x = element_blank(),
+    legend.position = 'none',
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank()
+  ) +
+  labs(
+    y = 'Seagrass Coverage (x1,000 acres)'
+  )
+
+
+
+##
+# top, bottom axis line breaks
+
+gt <- ggplotGrob(p)
+
+is_axisb <- which(gt$layout$name == "axis-b")
+is_axist <- which(gt$layout$name == "axis-t")
+is_axisl <- which(gt$layout$name == "axis-l")
+is_axisr <- which(gt$layout$name == "axis-r")
+
+axisb <- gt$grobs[[is_axisb]]
+xline <- axisb$children[[1]]
+
+# location of break, break type
+xline$y <- unit(rep(1, 4), "npc")
+xline$x <- unit(c(0, 0.06, 1, 0.105), "npc")
+xline$id <- c(1, 1, 2, 2)
+xline$arrow <- arrow(angle = 90, length = unit(0.07, 'inches'))
+
+axisb$children[[1]] <- xline
+axist <- xline
+axisl <- gt$grobs[[is_axisl]]
+
+gt$grobs[[is_axisb]] <- axisb
+gt$grobs[[is_axist]] <- axist
+gt$grobs[[is_axisr]] <-axisl$children[[1]]
+
+##
+# save plot
+
+png('figure/seagrasscov.png', height = 3.25, width = 6, res = 300, unit = 'in')
+grid.newpage(); grid.draw(gt)
+dev.off()
+```
+
+```{r seagrass, fig.align = 'center', out.width = '90%', fig.cap = 'Historic seagrass coverage estimates for Tampa Bay. The target coverage of 38,000 acres was changed to 40,000 acres in 2020 to reflect programmatic goals in the 2020 Habitat Master Plan Update (<a href="https://drive.google.com/file/d/1Hp0l_qtbxp1JxKJoGatdyuANSzQrpL0I/view?usp=drivesdk">TBEP #07-20</a>).  2020 coverage estimate is provisional. Data source: TBEP & SWFWMD.'}
+knitr::include_graphics('figure/seagrasscov.png')
 ```
 
 ```{r chlmat, fig.align = 'center', out.width = '30%', fig.cap = paste0('Attainment of adopted chlorophyll-a thresholds (1974 - ', maxyr, ') in the four major bay segments.  Green (yes) indicates that average annual chlorophyll-a thresholds were met; red (no) indicates that threshold levels were not met.  Grey line is the beginning of the Reasonable Assurance implementation period. Data source:  EPCHC.'), fig.height = 10, fig.width = 4}
