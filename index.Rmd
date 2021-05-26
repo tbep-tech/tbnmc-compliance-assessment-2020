@@ -482,7 +482,7 @@ seagrassadd <- seagrass %>%
   bind_rows(
     tibble(
       Year = c(2020L),
-      Acres = c(35240)
+      Acres = c(34297)
     )
   )
 
