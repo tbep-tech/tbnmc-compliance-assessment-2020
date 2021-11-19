@@ -31,7 +31,7 @@ jobs:
           brew install xquartz
       - name: Install R packages
         run: |
-          install.packages(c("remotes", "tidyverse", "extrafont", "reactable", "gridExtra", "english", "here", "rmarkdown", "bookdown", "ggfx"))
+          install.packages(c("remotes", "tidyverse", "extrafont", "reactable", "gridExtra", "english", "here", "rmarkdown", "bookdown", "ggfx", "ggmap", "ggsn", "ggrepel"))
           remotes::install_github("tbep-tech/tbeptools")
         shell: Rscript {0}
       - name: Render index
