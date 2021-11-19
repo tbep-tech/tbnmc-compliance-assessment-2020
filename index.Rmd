@@ -69,7 +69,7 @@ data(algdat)
   </tr>
   <tr>
     <td></td>
-    <td>John Blevins, US EPA Region 4</td>
+    <td>Daniel Blackman, US EPA Region 4</td>
   </tr>
   <tr>
     <td>FROM:</td>
@@ -85,7 +85,7 @@ data(algdat)
   </tr>
   <tr>
     <td><font size="2">cc:</font></td>
-    <td><font size="2">Ken Weaver, Jessica Mostyn, Ben Ralys, Kevin O’Donnell, Julie Espy, Daryll Joyner (FDEP Tallahassee)</font></td>
+    <td><font size="2">Ken Weaver, Jessica Mostyn, Ben Ralys, Kevin O’Donnell, Greg DeAngelo, Daryll Joyner (FDEP Tallahassee)</font></td>
   </tr>
     <tr>
     <td></td>
